@@ -1,0 +1,1 @@
+csc /target:exe /win32icon:TLSClient.ico /reference:System.Numerics.dll /reference:crypto.dll /reference:common.dll /reference:handshake.dll /reference:LibTLSClient.dll /out:TLSClient.exe TLSClient.cs

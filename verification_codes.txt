@@ -1,0 +1,85 @@
+AES_CTR Verification stuff:
+
+byte[] counter = new byte[16];
+byte[] key = Encoding.ASCII.GetBytes("Hello world such");
+
+cf.printBuf(key, "Key: ");
+AES_CTR aesctr = new AES_CTR(counter);
+ICryptoTransform ict = aesctr.CreateEncryptor(key, null);
+byte[] input = Encoding.ASCII.GetBytes("password");
+cf.printBuf(input, "Input: ");
+byte[] output = new byte[150];
+ict.TransformBlock(input, 0, input.Length, output, 0);
+cf.printBuf(output, "Output: ");
+return;
+
+GF_mult verificartion stuff:
+
+BigInteger a = e.GF_mult(100, 100);
+cf.printBuf(a.ToByteArray(), "GF_mult: ");
+Console.WriteLine(a);
+return;
+
+GHASH verificartion stuff:
+
+BigInteger H = new BigInteger(200);
+byte[] A = new byte[95];
+byte[] C = new byte[95];
+
+for (int i = 0; i < 95; i ++)
+{
+	A[i] = 2;
+	C[i] = 2;
+}
+
+BigInteger a = e.GHASH(H, A, C);
+Console.WriteLine(a);
+
+---------------------------------
+
+byte[] HArray = {0xA3, 0x59, 0x8F, 0xB6, 0x7E, 0x28, 0x20, 0x5A, 0x9E, 0x9B, 0x4A, 0xFB, 0x5A, 0x90, 0xE1, 0xB1};
+
+byte[] AArray = {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x16, 0x03, 0x03, 0x00, 0x10};
+byte[] CArray = {0x2F, 0x0E, 0xCD, 0x6F, 0x8F, 0xA3, 0x8E, 0x42, 0x5C, 0x77, 0x53, 0xF3, 0xF3, 0x88, 0x81, 0xDC};
+
+Array.Reverse(HArray);
+List <byte> temp = new List<byte> ();
+temp.Clear();
+temp.TrimExcess();
+
+
+temp.AddRange(HArray);
+temp.Add(0);
+
+
+cf.printBuf(temp.ToArray(), "H Array Orig: ");
+BigInteger Hint = new BigInteger(temp.ToArray());
+Console.WriteLine(Hint);
+cf.printBuf(Hint.ToByteArray(), "H Array: ");
+
+BigInteger a = e.GHASH(Hint, AArray, CArray);
+Console.WriteLine(a);
+return;
+
+--------------------------------------------------
+
+BIG Integer conversion verification:
+
+byte[] barray = {0xC6, 0xCA, 0xAB, 0xFA, 0xAF, 0x7E, 0x73, 0xE3, 0xBF, 0x92, 0x26, 0xFF, 0xB4, 0xB2, 0xE9, 0x2D};
+BigInteger i = new BigInteger(barray);
+Console.WriteLine(i);
+Array.Reverse(barray);
+BigInteger j = new BigInteger(barray);
+Console.WriteLine(j);
+List <byte> t = new List<byte> ();
+t.AddRange(barray);
+t.Add(0);
+BigInteger l = new BigInteger(t.ToArray());
+Console.WriteLine(l);
+BigInteger k = BigInteger.Parse("264239475284232979663011255291619764525");
+cf.printBuf(k.ToByteArray(), "K: ");
+return;
+
+BigInteger n = BigInteger.Parse("35005312285321464685722943110820494964736");
+cf.printBuf(n.ToByteArray(), "N: ");
+return;
